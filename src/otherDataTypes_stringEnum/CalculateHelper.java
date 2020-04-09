@@ -14,7 +14,37 @@ public class CalculateHelper {
     double rightValue;
     double result;
 
-    public void process(String statement) throws InvalidStatementException{
+    public void process(String statement){
+        //Add 1.0 2.0
+        String[] parts = statement.split(" ");
+        String commandString = parts[0];
+
+        leftValue = Double.parseDouble(parts[1]);
+        rightValue = Double.parseDouble(parts[2]);
+
+        setCommandString(commandString);
+
+        CalculateBase calculator = null;
+        switch (command){
+            case Add:
+                calculator = new Adder(leftValue, rightValue);
+                break;
+            case Subtract:
+                calculator = new Subtracter(leftValue, rightValue);
+                break;
+            case Multiply:
+                calculator = new Multiplier(leftValue, rightValue);
+                break;
+            case Divide:
+                calculator = new Divider(leftValue, rightValue);
+                break;
+        }
+
+        calculator.calculate();
+        result = calculator.getResult();
+    }
+
+    public void process_with_exception(String statement) throws InvalidStatementException{
         //Add 1.0 2.0
         String[] parts = statement.split(" ");
         if(parts.length != 3){
@@ -93,8 +123,6 @@ public class CalculateHelper {
         sb.append(result);
 
         return sb.toString();
-
-
 
     }
 }
